@@ -2,15 +2,12 @@
     require_once("connect.php");
     
     try {
-        $createTable="CREATE TABLE practise(
-                id int(10),
-                name varchar(30),
-                email varchar(50)
-            )";
-        $conn->exec($createTable);
-        echo "Table created successfully<br>";
+        $insertIntoTable="INSERT INTO practise(`id` ,`name`,`email`)
+            VALUES(1003,'amit3','asdf3@asdf.com')";
+        $conn->exec($insertIntoTable);
+        echo "Record inserted successfully<br>";
       } catch(PDOException $e) {
-        echo $createDb . "<br>" . $e->getMessage();
+        echo $insertIntoTable . "<br>" . $e->getMessage();
       }
 ?>
 <!DOCTYPE html>
