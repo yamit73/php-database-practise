@@ -2,12 +2,18 @@
     require_once("connect.php");
     
     try {
-        $insertIntoTable="INSERT INTO practise(`id` ,`name`,`email`)
-            VALUES(1003,'amit3','asdf3@asdf.com')";
-        $conn->exec($insertIntoTable);
+        $conn->beginTransaction();
+
+        $conn->exec("INSERT INTO practise(`id` ,`name`,`email`) VALUES(1005,'amit5','asdf5@asdf.com')");
+        $conn->exec("INSERT INTO practise(`id` ,`name`,`email`) VALUES(1006,'amit6','asdf6@asdf.com')");
+        $conn->exec("INSERT INTO practise(`id` ,`name`,`email`) VALUES(1007,'amit7','asdf7@asdf.com')");
+
+        $conn->commit();
+
         echo "Record inserted successfully<br>";
       } catch(PDOException $e) {
-        echo $insertIntoTable . "<br>" . $e->getMessage();
+            $conn->rollback();
+            echo "Error " . "<br>" . $e->getMessage();
       }
 ?>
 <!DOCTYPE html>
