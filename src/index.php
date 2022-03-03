@@ -23,7 +23,7 @@
    
     try {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT id, name, email FROM practise");
+        $stmt = $conn->prepare("SELECT id, name, email FROM practise WHERE name='amit4'");
         $stmt->execute();
 
         // set the resulting array to associative
