@@ -2,9 +2,13 @@
     require_once("connect.php");
     
     try {
-        $createDb="DROP DATABASE store";
-        $conn->exec($createDb);
-        echo "Database dropped successfully<br>";
+        $createTable="CREATE TABLE practise(
+                id int(10),
+                name varchar(30),
+                email varchar(50)
+            )";
+        $conn->exec($createTable);
+        echo "Table created successfully<br>";
       } catch(PDOException $e) {
         echo $createDb . "<br>" . $e->getMessage();
       }
