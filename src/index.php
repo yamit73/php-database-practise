@@ -1,20 +1,42 @@
 <?php
+    echo "<table style='border: solid 1px black;'>";
+    echo "<tr><th>Id</th><th>Name</th><th>Email</th></tr>";
+
+    class TableRows extends RecursiveIteratorIterator {
+        function __construct($it) {
+            parent::__construct($it, self::LEAVES_ONLY);
+        }
+
+        function current() {
+            return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
+        }
+
+        function beginChildren() {
+            echo "<tr>";
+        }
+
+        function endChildren() {
+            echo "</tr>" . "\n";
+        }
+    }
     require_once("connect.php");
-    
+   
     try {
-        $conn->beginTransaction();
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT id, name, email FROM practise");
+        $stmt->execute();
 
-        $conn->exec("INSERT INTO practise(`id` ,`name`,`email`) VALUES(1005,'amit5','asdf5@asdf.com')");
-        $conn->exec("INSERT INTO practise(`id` ,`name`,`email`) VALUES(1006,'amit6','asdf6@asdf.com')");
-        $conn->exec("INSERT INTO practise(`id` ,`name`,`email`) VALUES(1007,'amit7','asdf7@asdf.com')");
-
-        $conn->commit();
-
-        echo "Record inserted successfully<br>";
-      } catch(PDOException $e) {
-            $conn->rollback();
-            echo "Error " . "<br>" . $e->getMessage();
-      }
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+            echo $v;
+        }
+    } catch(PDOException $e) {
+        $conn->rollback();
+        echo "Error " . "<br>" . $e->getMessage();
+    }
+    $conn = null;
+    echo "</table>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
